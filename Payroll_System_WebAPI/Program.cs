@@ -4,6 +4,7 @@ using Payroll_System_BLL.Services;
 using Payroll_System_DAL;
 using Payroll_System_DAL.Repositories;
 using Payroll_System_DAL.Entities;
+using Payroll_System_DAL.UnitOfWorks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,8 @@ builder.Services.AddDbContext<PayrollSystemDbContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(PayrollRepository<>));
+builder.Services.AddScoped(typeof(IPayrollRepository<>), typeof(PayrollRepository<>));
+builder.Services.AddScoped(typeof(IPayrollUnitOfWork<>), typeof(PayrollUnitOfWork<>));
 builder.Services.AddScoped<IEmployee, EmployeeService>();
 
 builder.Services.AddTransient<Employee>();

@@ -14,11 +14,11 @@
      *      - GetByID() <br></br>
      * </remarks>
      * **/
-    public interface IRepository<T> where T : class
+    public interface IPayrollRepository<T> where T : class
     {
-        Task<int> Add(T entity);
-        Task<int> Update(T entity);
-        Task<int> Delete(T entity);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
         Task<List<T>> GetAll();
         Task<T?> GetByID(int id);
     }

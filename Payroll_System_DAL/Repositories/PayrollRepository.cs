@@ -7,7 +7,7 @@ namespace Payroll_System_DAL.Repositories
      *  A generic repository for PayrollSystemDB that implements IRepository including the constraint
      * </summary>
      * **/
-    public class PayrollRepository<T> : IRepository<T> where T : class
+    public class PayrollRepository<T> : IPayrollRepository<T> where T : class
     {
         #region Variables
         private readonly PayrollSystemDbContext _context;
@@ -21,18 +21,14 @@ namespace Payroll_System_DAL.Repositories
         #endregion
 
         #region Method
-        public async Task<int> Add(T entity)
+        public async void Add(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
-
-            return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Delete(T entity)
+        public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
-
-            return await _context.SaveChangesAsync();
         }
 
         public async Task<T?> GetByID(int id)
@@ -45,12 +41,10 @@ namespace Payroll_System_DAL.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<int> Update(T entity)
+        public void Update(T entity)
         {
             _context.Set<T>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-
-            return await _context.SaveChangesAsync();
         }
         #endregion
     }

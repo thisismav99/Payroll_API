@@ -57,8 +57,8 @@ namespace Payroll_System_WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("CreateEmployee")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeRequest request)
+        [Route("AddEmployee")]
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeRequest request)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Payroll_System_WebAPI.Controllers
                 _employee.IsActive = request.IsActive;
                 // end
 
-                var result = await _employeeService.CreateEmployee(_employee);
+                var result = await _employeeService.AddEmployee(_employee);
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }

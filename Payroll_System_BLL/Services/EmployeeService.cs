@@ -1,39 +1,78 @@
 ﻿using Payroll_System_BLL.Interfaces;
 using Payroll_System_DAL.Entities;
 using Payroll_System_DAL.Repositories;
+using Payroll_System_DAL.UnitOfWorks;
 
 namespace Payroll_System_BLL.Services
 {
     public class EmployeeService : IEmployee
     {
         #region Variables
-        private readonly IRepository<Employee> _employeeRepository;
+        private readonly IPayrollRepository<Employee> _employeeRepository;
+        private readonly IPayrollUnitOfWork<Employee> _employeeUnitOfWork;
         #endregion
 
         #region Constructor
-        public EmployeeService(IRepository<Employee> employeeRepository)
+        public EmployeeService(IPayrollRepository<Employee> employeeRepository,
+                               IPayrollUnitOfWork<Employee> employeeUnitOfWork)
         {
             _employeeRepository = employeeRepository;
+            _employeeUnitOfWork = employeeUnitOfWork;
         }
         #endregion
 
         #region Method
-        public async Task<int> CreateEmployee(Employee employee)
+        public async Task<int> AddEmployee(Employee employee)
         {
-            if (employee is null)
+            var transaction = await _employeeUnitOfWork.BeginTransaction();
+
+            try
+            {
+                if (employee is null)
+                    return 0;
+                else
+                {
+                    _employeeRepository.Add(employee);
+                    var result = await _employeeUnitOfWork.SaveChanges();
+
+                    await transaction.CommitAsync();
+
+                    return result;
+                }
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
                 return 0;
-            else
-                return await _employeeRepository.Add(employee);
+            }
         }
 
         public async Task<int> DeleteEmployeeByID(int id)
         {
-            var employee = await _employeeRepository.GetByID(id);
+            var transaction = await _employeeUnitOfWork.BeginTransaction();
 
-            if (employee is null)
+            try
+            {
+                var employee = await _employeeRepository.GetByID(id);
+
+                if (employee is null)
+                    return 0;
+                else
+                {
+                    _employeeRepository.Delete(employee);
+                    var result = await _employeeUnitOfWork.SaveChanges();
+
+                    await transaction.CommitAsync();
+
+                    return result;
+                }
+
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
                 return 0;
-            else
-                return await _employeeRepository.Delete(employee);
+            }
         }
 
         public async Task<List<Employee>> GetAllEmployees()
@@ -53,12 +92,22 @@ namespace Payroll_System_BLL.Services
 
         public async Task<int> UpdateEmployee(Employee employee)
         {
-            var updateEmployee = await _employeeRepository.Update(employee);
+            var transaction = await _employeeUnitOfWork.BeginTransaction();
 
-            if(updateEmployee == 0)
+            try 
+            { 
+                _employeeRepository.Update(employee);
+                var result = await _employeeUnitOfWork.SaveChanges();
+
+                await transaction.CommitAsync();
+
+                return result;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
                 return 0;
-            else
-                return updateEmployee;
+            }
         }
         #endregion
     }
