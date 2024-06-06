@@ -9,20 +9,23 @@ namespace Payroll_System_BLL.Services
     {
         #region Variables
         private readonly IPayrollRepository<Employee> _employeeRepository;
+        private readonly IPayrollRepository<Salary> _salaryRepository;
         private readonly IPayrollUnitOfWork<Employee> _employeeUnitOfWork;
         #endregion
 
         #region Constructor
         public EmployeeService(IPayrollRepository<Employee> employeeRepository,
+                               IPayrollRepository<Salary> salaryRepository,
                                IPayrollUnitOfWork<Employee> employeeUnitOfWork)
         {
             _employeeRepository = employeeRepository;
+            _salaryRepository = salaryRepository;
             _employeeUnitOfWork = employeeUnitOfWork;
         }
         #endregion
 
         #region Method
-        public async Task<int> AddEmployee(Employee employee)
+        public async Task<int> AddEmployee(Employee employee, Salary salary)
         {
             var transaction = await _employeeUnitOfWork.BeginTransaction();
 
@@ -33,11 +36,14 @@ namespace Payroll_System_BLL.Services
                 else
                 {
                     _employeeRepository.Add(employee);
-                    var result = await _employeeUnitOfWork.SaveChanges();
+                    await _employeeUnitOfWork.SaveChanges();
+
+                    _salaryRepository.Add(salary);
+                    await _employeeUnitOfWork.SaveChanges();
 
                     await transaction.CommitAsync();
 
-                    return result;
+                    return 1;
                 }
             }
             catch

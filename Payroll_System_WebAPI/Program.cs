@@ -21,6 +21,7 @@ builder.Services.AddScoped(typeof(IPayrollUnitOfWork<>), typeof(PayrollUnitOfWor
 builder.Services.AddScoped<IEmployee, EmployeeService>();
 
 builder.Services.AddTransient<Employee>();
+builder.Services.AddTransient<Salary>();
 #endregion
 
 var app = builder.Build();

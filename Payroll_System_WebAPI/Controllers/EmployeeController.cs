@@ -12,14 +12,18 @@ namespace Payroll_System_WebAPI.Controllers
         #region Variables
         private readonly IEmployee _employeeService;
         private readonly Employee _employee;
+        private readonly Salary _salary;
         #endregion
 
         #region Constructor
         public EmployeeController(IEmployee employeeService, 
-                                  Employee employee)
+                                  Employee employee,
+                                  Salary salary)
         {
             _employeeService = employeeService;
             _employee = employee;
+            _salary = salary;
+
         }
         #endregion
 
@@ -62,7 +66,7 @@ namespace Payroll_System_WebAPI.Controllers
         {
             try
             {
-                // Convert EmployeeRequest to Employee Entities
+                // Convert EmployeeRequest to Employee and Salary Entities
                 _employee.FirstName = request.FirstName;
                 _employee.MiddleName = request.MiddleName;
                 _employee.LastName = request.LastName;
@@ -71,9 +75,17 @@ namespace Payroll_System_WebAPI.Controllers
                 _employee.CreatedBy = request.CreatedBy;
                 _employee.CreatedOn = request.CreatedOn;
                 _employee.IsActive = request.IsActive;
+
+                _salary.TotalSalary = request.SalaryRequest.TotalSalary;
+                _salary.SemiMonthlySalary = request.SalaryRequest.SemiMonthlySalary;
+                _salary.MonthlySalary = request.SalaryRequest.MonthlySalary;
+                _salary.CreatedBy = request.CreatedBy;
+                _salary.CreatedOn = request.CreatedOn;
+                _salary.IsActive = request.IsActive;
+                _salary.Employee = _employee;
                 // end
 
-                var result = await _employeeService.AddEmployee(_employee);
+                var result = await _employeeService.AddEmployee(_employee, _salary);
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }

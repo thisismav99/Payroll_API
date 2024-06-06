@@ -11,5 +11,7 @@
         public int PositionID { get; set; }
 
         public int DivisionID { get; set; }
+
+        public virtual required SalaryRequest SalaryRequest { get; set; }
     }
 }

@@ -14,7 +14,7 @@
      *      - GetByID() <br></br>
      * </remarks>
      * **/
-    public interface IPayrollRepository<T> where T : class
+    public interface IPayrollRepository<T>
     {
         void Add(T entity);
         void Update(T entity);
