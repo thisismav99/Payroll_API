@@ -1,6 +1,6 @@
-﻿namespace Payroll_System_WebAPI.Models.Request
+﻿namespace Payroll_System_WebAPI.Models
 {
-    public class EmployeeRequest : BaseRequest
+    public class EmployeeModel : BaseModel
     {
         public required string FirstName { get; set; }
 
@@ -11,7 +11,5 @@
         public int PositionID { get; set; }
 
         public int DivisionID { get; set; }
-
-        public virtual required SalaryRequest SalaryRequest { get; set; }
     }
 }

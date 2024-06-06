@@ -1,6 +1,6 @@
-﻿namespace Payroll_System_WebAPI.Models.Request
+﻿namespace Payroll_System_WebAPI.Models
 {
-    public class BaseRequest
+    public class BaseModel
     {
         public int? ID { get; set; }
 

@@ -1,33 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Payroll_System_BLL.Interfaces;
-using Payroll_System_DAL.Entities;
 using Payroll_System_WebAPI.Models.Request;
+using Payroll_System_WebAPI.Models.ViewModels;
+using Payroll_System_WebAPI.Utilities;
 
 namespace Payroll_System_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController : BaseController
     {
         #region Variables
         private readonly IEmployee _employeeService;
-        private readonly Employee _employee;
-        private readonly Salary _salary;
         #endregion
 
         #region Constructor
-        public EmployeeController(IEmployee employeeService, 
-                                  Employee employee,
-                                  Salary salary)
+        public EmployeeController(IEmployee employeeService)
         {
             _employeeService = employeeService;
-            _employee = employee;
-            _salary = salary;
-
         }
         #endregion
 
-        #region Method
+        #region Methods
         [HttpGet]
         [Route("GetEmployeeByID")]
         public async Task<IActionResult> GetEmployeeByID([FromQuery] IDRequest request)
@@ -62,26 +56,13 @@ namespace Payroll_System_WebAPI.Controllers
 
         [HttpPost]
         [Route("AddEmployee")]
-        public async Task<IActionResult> AddEmployee([FromBody] EmployeeRequest request)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeViewModel request)
         {
             try
             {
                 // Convert EmployeeRequest to Employee and Salary Entities
-                _employee.FirstName = request.FirstName;
-                _employee.MiddleName = request.MiddleName;
-                _employee.LastName = request.LastName;
-                _employee.PositionID = request.PositionID;
-                _employee.DivisionID = request.DivisionID;
-                _employee.CreatedBy = request.CreatedBy;
-                _employee.CreatedOn = request.CreatedOn;
-                _employee.IsActive = request.IsActive;
-
-                _salary.TotalSalary = request.SalaryRequest.TotalSalary;
-                _salary.SemiMonthlySalary = request.SalaryRequest.SemiMonthlySalary;
-                _salary.MonthlySalary = request.SalaryRequest.MonthlySalary;
-                _salary.CreatedBy = request.CreatedBy;
-                _salary.CreatedOn = request.CreatedOn;
-                _salary.IsActive = request.IsActive;
+                var _employee = ViewModelConverter.EmployeeConverter(request.Employee);
+                var _salary = ViewModelConverter.SalaryConverter(request.Salary);
                 _salary.Employee = _employee;
                 // end
 
@@ -97,22 +78,12 @@ namespace Payroll_System_WebAPI.Controllers
 
         [HttpPost]
         [Route("UpdateEmployee")]
-        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeRequest request)
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeViewModel request)
         {
             try
             {
                 // Convert EmployeeRequest to Employee Entities
-                _employee.ID = (int)request.ID!;
-                _employee.FirstName = request.FirstName;
-                _employee.MiddleName = request.MiddleName;
-                _employee.LastName = request.LastName;
-                _employee.PositionID = request.PositionID;
-                _employee.DivisionID = request.DivisionID;
-                _employee.CreatedBy = request.CreatedBy;
-                _employee.CreatedOn = request.CreatedOn;
-                _employee.UpdatedBy = request.UpdatedBy;
-                _employee.UpdatedOn = request.UpdatedOn;
-                _employee.IsActive = request.IsActive;
+                var _employee = ViewModelConverter.EmployeeConverter(request.Employee);
                 // end
 
                 var result = await _employeeService.UpdateEmployee(_employee);

@@ -40,7 +40,7 @@ namespace Payroll_System_BLL.Services
 
                     _salaryRepository.Add(salary);
                     await _employeeUnitOfWork.SaveChanges();
-
+                    
                     await transaction.CommitAsync();
 
                     return 1;

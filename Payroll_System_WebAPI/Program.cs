@@ -19,9 +19,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IPayrollRepository<>), typeof(PayrollRepository<>));
 builder.Services.AddScoped(typeof(IPayrollUnitOfWork<>), typeof(PayrollUnitOfWork<>));
 builder.Services.AddScoped<IEmployee, EmployeeService>();
-
-builder.Services.AddTransient<Employee>();
-builder.Services.AddTransient<Salary>();
 #endregion
 
 var app = builder.Build();

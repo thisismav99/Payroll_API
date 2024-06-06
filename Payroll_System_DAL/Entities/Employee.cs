@@ -15,9 +15,9 @@ namespace Payroll_System_DAL.Entities
         public int DivisionID { get; set; }
 
         [ForeignKey("PositionID")]
-        public virtual required Position Position  { get; set; }
+        public virtual Position? Position  { get; set; }
 
         [ForeignKey("DivisionID")]
-        public virtual required Division Division { get; set; }
+        public virtual Division? Division { get; set; }
     }
 }

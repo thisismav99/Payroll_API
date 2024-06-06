@@ -1,13 +1,11 @@
-﻿namespace Payroll_System_WebAPI.Models.Request
+﻿namespace Payroll_System_WebAPI.Models
 {
-    public class SalaryRequest : BaseRequest
+    public class SalaryModel : BaseModel
     {
         public decimal TotalSalary { get; set; }
 
         public decimal SemiMonthlySalary { get; set; }
 
         public decimal MonthlySalary { get; set; }
-
-        public int EmployeeID { get; set; }
     }
 }
