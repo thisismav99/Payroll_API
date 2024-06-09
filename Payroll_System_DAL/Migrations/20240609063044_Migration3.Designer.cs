@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Payroll_System_DAL;
 
@@ -11,9 +12,11 @@ using Payroll_System_DAL;
 namespace Payroll_System_DAL.Migrations
 {
     [DbContext(typeof(PayrollSystemDbContext))]
-    partial class PayrollSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609063044_Migration3")]
+    partial class Migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +108,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 1,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4828),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(4108),
                             DivisionName = "HIGHEST",
                             IsActive = true
                         },
@@ -113,7 +116,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 2,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4830),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(4111),
                             DivisionName = "MID",
                             IsActive = true
                         },
@@ -121,7 +124,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 3,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4831),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(4113),
                             DivisionName = "LOWEST",
                             IsActive = true
                         });
@@ -214,7 +217,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 1,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4678),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3881),
                             IsActive = true,
                             PositionName = "CEO"
                         },
@@ -222,7 +225,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 2,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4690),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3898),
                             IsActive = true,
                             PositionName = "SALES MANAGER"
                         },
@@ -230,7 +233,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 3,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4691),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3900),
                             IsActive = true,
                             PositionName = "SALES ASSISTANT"
                         },
@@ -238,7 +241,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 4,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4692),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3902),
                             IsActive = true,
                             PositionName = "HR MANAGER"
                         },
@@ -246,7 +249,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 5,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4693),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3904),
                             IsActive = true,
                             PositionName = "HR ASSISTANT"
                         },
@@ -254,7 +257,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 6,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4694),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3906),
                             IsActive = true,
                             PositionName = "PROGRAMMER III"
                         },
@@ -262,7 +265,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 7,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4695),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3908),
                             IsActive = true,
                             PositionName = "PROGRAMMER II"
                         },
@@ -270,7 +273,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 8,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4696),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3910),
                             IsActive = true,
                             PositionName = "PROGRAMMER I"
                         },
@@ -278,7 +281,7 @@ namespace Payroll_System_DAL.Migrations
                         {
                             ID = 9,
                             CreatedBy = "SYSTEM",
-                            CreatedOn = new DateTime(2024, 6, 9, 16, 14, 39, 154, DateTimeKind.Local).AddTicks(4697),
+                            CreatedOn = new DateTime(2024, 6, 9, 14, 30, 43, 418, DateTimeKind.Local).AddTicks(3912),
                             IsActive = true,
                             PositionName = "JANITOR"
                         });

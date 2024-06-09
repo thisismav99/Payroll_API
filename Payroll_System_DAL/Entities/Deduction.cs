@@ -13,6 +13,6 @@ namespace Payroll_System_DAL.Entities
         public int SalaryID { get; set; }
 
         [ForeignKey("SalaryID")]
-        public virtual required Salary Salary { get; set; }
+        public virtual Salary? Salary { get; set; }
     }
 }

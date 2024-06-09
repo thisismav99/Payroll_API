@@ -5,7 +5,5 @@
         public decimal TotalSalary { get; set; }
 
         public decimal SemiMonthlySalary { get; set; }
-
-        public decimal MonthlySalary { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using Payroll_System_BLL.Interfaces;
 using Payroll_System_BLL.Services;
 using Payroll_System_DAL;
 using Payroll_System_DAL.Repositories;
-using Payroll_System_DAL.Entities;
 using Payroll_System_DAL.UnitOfWorks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +16,8 @@ builder.Services.AddDbContext<PayrollSystemDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped(typeof(IPayrollRepository<>), typeof(PayrollRepository<>));
-builder.Services.AddScoped(typeof(IPayrollUnitOfWork<>), typeof(PayrollUnitOfWork<>));
-builder.Services.AddScoped<IEmployee, EmployeeService>();
+builder.Services.AddScoped<IPayrollUnitOfWork, PayrollUnitOfWork>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 #endregion
 
 var app = builder.Build();

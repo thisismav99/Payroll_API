@@ -2,7 +2,7 @@
 
 namespace Payroll_System_DAL.UnitOfWorks
 {
-    public class PayrollUnitOfWork<T> : IPayrollUnitOfWork<T> where T : class
+    public class PayrollUnitOfWork : IPayrollUnitOfWork
     {
         #region Variables
         private readonly PayrollSystemDbContext _context;

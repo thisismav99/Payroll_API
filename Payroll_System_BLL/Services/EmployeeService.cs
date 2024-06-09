@@ -5,29 +5,32 @@ using Payroll_System_DAL.UnitOfWorks;
 
 namespace Payroll_System_BLL.Services
 {
-    public class EmployeeService : IEmployee
+    public class EmployeeService : IEmployeeService
     {
         #region Variables
         private readonly IPayrollRepository<Employee> _employeeRepository;
         private readonly IPayrollRepository<Salary> _salaryRepository;
-        private readonly IPayrollUnitOfWork<Employee> _employeeUnitOfWork;
+        private readonly IPayrollRepository<Deduction> _deductionRepository;
+        private readonly IPayrollUnitOfWork _unitOfWork;
         #endregion
 
         #region Constructor
         public EmployeeService(IPayrollRepository<Employee> employeeRepository,
                                IPayrollRepository<Salary> salaryRepository,
-                               IPayrollUnitOfWork<Employee> employeeUnitOfWork)
+                               IPayrollRepository<Deduction> deductionRepository,
+                               IPayrollUnitOfWork unitOfWork)
         {
             _employeeRepository = employeeRepository;
             _salaryRepository = salaryRepository;
-            _employeeUnitOfWork = employeeUnitOfWork;
+            _deductionRepository = deductionRepository;
+            _unitOfWork = unitOfWork;
         }
         #endregion
 
-        #region Method
-        public async Task<int> AddEmployee(Employee employee, Salary salary)
+        #region Methods
+        public async Task<int> AddEmployee(Employee employee, Salary salary, Deduction deduction)
         {
-            var transaction = await _employeeUnitOfWork.BeginTransaction();
+            var transaction = await _unitOfWork.BeginTransaction();
 
             try
             {
@@ -36,17 +39,20 @@ namespace Payroll_System_BLL.Services
                 else
                 {
                     _employeeRepository.Add(employee);
-                    await _employeeUnitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChanges();
 
                     _salaryRepository.Add(salary);
-                    await _employeeUnitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChanges();
+
+                    _deductionRepository.Add(deduction);
+                    await _unitOfWork.SaveChanges();
                     
                     await transaction.CommitAsync();
 
                     return 1;
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 await transaction.RollbackAsync();
                 return 0;
@@ -55,7 +61,7 @@ namespace Payroll_System_BLL.Services
 
         public async Task<int> DeleteEmployeeByID(int id)
         {
-            var transaction = await _employeeUnitOfWork.BeginTransaction();
+            var transaction = await _unitOfWork.BeginTransaction();
 
             try
             {
@@ -66,13 +72,12 @@ namespace Payroll_System_BLL.Services
                 else
                 {
                     _employeeRepository.Delete(employee);
-                    var result = await _employeeUnitOfWork.SaveChanges();
+                    await _unitOfWork.SaveChanges();
 
                     await transaction.CommitAsync();
 
-                    return result;
+                    return 1;
                 }
-
             }
             catch
             {
@@ -98,16 +103,36 @@ namespace Payroll_System_BLL.Services
 
         public async Task<int> UpdateEmployee(Employee employee)
         {
-            var transaction = await _employeeUnitOfWork.BeginTransaction();
+            var transaction = await _unitOfWork.BeginTransaction();
 
             try 
             { 
                 _employeeRepository.Update(employee);
-                var result = await _employeeUnitOfWork.SaveChanges();
+                await _unitOfWork.SaveChanges();
 
                 await transaction.CommitAsync();
 
-                return result;
+                return 1;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                return 0;
+            }
+        }
+
+        public async Task<int> UpdateEmployeePartial(Employee employee)
+        {
+            var transaction = await _unitOfWork.BeginTransaction();
+
+            try
+            {
+                _employeeRepository.Update(employee);
+                await _unitOfWork.SaveChanges();
+
+                await transaction.CommitAsync();
+
+                return 1;
             }
             catch
             {

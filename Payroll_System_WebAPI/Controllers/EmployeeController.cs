@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Payroll_System_BLL.Interfaces;
+using Payroll_System_WebAPI.Models;
 using Payroll_System_WebAPI.Models.Request;
 using Payroll_System_WebAPI.Models.ViewModels;
 using Payroll_System_WebAPI.Utilities;
@@ -11,11 +12,11 @@ namespace Payroll_System_WebAPI.Controllers
     public class EmployeeController : BaseController
     {
         #region Variables
-        private readonly IEmployee _employeeService;
+        private readonly IEmployeeService _employeeService;
         #endregion
 
         #region Constructor
-        public EmployeeController(IEmployee employeeService)
+        public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }
@@ -60,13 +61,15 @@ namespace Payroll_System_WebAPI.Controllers
         {
             try
             {
-                // Convert EmployeeRequest to Employee and Salary Entities
-                var _employee = ViewModelConverter.EmployeeConverter(request.Employee);
-                var _salary = ViewModelConverter.SalaryConverter(request.Salary);
-                _salary.Employee = _employee;
+                // Convert EmployeeViewModel to Employee, Salary and Deduction Entities
+                var employee = ViewModelConverter.EmployeeConverter(request.Employee);
+                var salary = ViewModelConverter.SalaryConverter(request.Salary);
+                salary.Employee = employee;
+                var deduction = ViewModelConverter.DeductionConverter(request.Deduction);
+                deduction.Salary = salary;
                 // end
 
-                var result = await _employeeService.AddEmployee(_employee, _salary);
+                var result = await _employeeService.AddEmployee(employee, salary, deduction);
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }
@@ -76,17 +79,17 @@ namespace Payroll_System_WebAPI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateEmployee")]
-        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeViewModel request)
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeModel request)
         {
             try
             {
-                // Convert EmployeeRequest to Employee Entities
-                var _employee = ViewModelConverter.EmployeeConverter(request.Employee);
+                // Convert EmployeeViewModel to Employee Entities
+                var employee = ViewModelConverter.EmployeeConverter(request);
                 // end
 
-                var result = await _employeeService.UpdateEmployee(_employee);
+                var result = await _employeeService.UpdateEmployee(employee);
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }
@@ -96,7 +99,27 @@ namespace Payroll_System_WebAPI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPatch]
+        [Route("UpdateEmployeePartial")]
+        public async Task<IActionResult> UpdateEmployeePartial([FromBody] EmployeeModel request)
+        {
+            try
+            {
+                // Convert EmployeeViewModel to Employee Entities
+                var employee = ViewModelConverter.EmployeeConverter(request);
+                // end
+
+                var result = await _employeeService.UpdateEmployeePartial(employee);
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
         [Route("DeleteEmployeeByID")]
         public async Task<IActionResult> DeleteEmployeeByID([FromBody] IDRequest request)
         {

@@ -2,8 +2,8 @@
 
 namespace Payroll_System_BLL.Interfaces
 {
-    public interface ISalary
+    public interface IDeductionService
     {
-        Task<int> AddSalary(Salary salary);
+        Task<int> AddDeduction(Deduction deduction);
     }
 }

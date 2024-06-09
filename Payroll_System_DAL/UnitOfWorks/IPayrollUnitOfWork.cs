@@ -2,7 +2,7 @@
 
 namespace Payroll_System_DAL.UnitOfWorks
 {
-    public interface IPayrollUnitOfWork<T>
+    public interface IPayrollUnitOfWork
     {
         Task<int> SaveChanges();
         Task<IDbContextTransaction> BeginTransaction();
